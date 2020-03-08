@@ -144,7 +144,7 @@
 function productListPaes() {
   limpaDiv();
   $.ajax({
-    url: 'http://localhost:57286/api/Product/GetProductsByType?type=Pães',
+    url: 'http://localhost:57286/api/Products/GetProductsByType?type=Pães',
     type: 'GET',
     dataType: 'json',
     success: function (products) {
@@ -159,7 +159,7 @@ function productListPaes() {
 function productListBebidas() {
   limpaDiv();
   $.ajax({
-    url: 'http://localhost:57286/api/Product/GetProductsByType?type=Bebidas',
+    url: 'http://localhost:57286/api/Products/GetProductsByType?type=Bebidas',
     type: 'GET',
     dataType: 'json',
     success: function (products) {
@@ -174,7 +174,7 @@ function productListBebidas() {
 function productListDiversos() {
   limpaDiv();
   $.ajax({
-    url: 'http://localhost:57286/api/Product/GetProductsByType?type=Diversos',
+    url: 'http://localhost:57286/api/Products/GetProductsByType?type=Diversos',
     type: 'GET',
     dataType: 'json',
     success: function (products) {
@@ -188,7 +188,7 @@ function productListDiversos() {
 
   function allProductList() {
   $.ajax({
-    url: 'http://localhost:57286/api/Product/Get',
+    url: 'http://localhost:57286/api/Products/Get',
     type: 'GET',
     dataType: 'json',
     success: function (products) {
