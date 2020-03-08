@@ -122,7 +122,11 @@
   <script src="vendor/jquery/jquery.min.js"></script>
   <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-  <script>
+  <script type="text/javascript" language="javascript">
+
+
+var array_cart = [];
+
 
   function limpaDiv(){
     $("#produtos").html('');
@@ -211,8 +215,19 @@ function productBuilder(product) {
     "<a href='#'>" + product.Name + "</a>" +
      "</h4><h5>R$ " + product.Price + "</h5>" +
      "<p class='card-text'>" + product.Description + "</p>" +
+	 "<div><button id='"+product.Name+"' onclick='addItem(this.id)' type='button' class='btn btn-primary'>Add Item</button></div><br/>"+
      "<div class='card-footer'><small class='text-muted'>&#9733; &#9733; &#9733; &#9733; &#9734;</small></div></div></div>";
   return ret;
+}
+
+function addItem(e) {
+
+
+	array_cart.push(e);
+	
+	var teste = window.localStorage.setItem('valor', array_cart);
+        console.log(array_cart);     
+    
 }
 
 function handleException(request, message,

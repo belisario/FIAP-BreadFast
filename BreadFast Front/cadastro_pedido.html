@@ -123,7 +123,9 @@
               <label for="exampleFormControlTextarea1">Exemplo de textarea</label>
               <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
             </div>
+			<button type="button" onclick="ReadArray();" class="btn btn-secondary">Finalizar</button>
           </form>
+		  
         </div>
       </div>
     </div>
@@ -140,6 +142,11 @@
   function limpaDiv(){
     $("#produtos").html('');
   }
+  
+  function ReadArray() {
+        var data = window.localStorage.getItem('valor');
+            console.log(data);
+    }
 
 function productListPaes() {
   limpaDiv();
