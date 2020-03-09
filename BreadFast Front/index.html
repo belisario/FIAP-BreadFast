@@ -24,6 +24,7 @@
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container">
       <a class="navbar-brand" href="#">BreadFast</a>
+	  <img src="images/breakfast.png" alt="Smiley face" height="42" width="42"> 
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -34,11 +35,14 @@
               <span class="sr-only">(current)</span>
             </a>
           </li>
+		  <li class="nav-item">
+            <a class="nav-link" href="cadastro_pedido.html">Fechar pedido</a>
+          </li>
           <li class="nav-item">
             <a class="nav-link" href="#">Login</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Contact</a>
+            <a class="nav-link" href="#">Contato</a>
           </li>
         </ul>
       </div>
@@ -57,11 +61,6 @@
           <a href="javascript:productListPaes();" class="list-group-item">Pães</a>
           <a href="javascript:productListBebidas();" class="list-group-item">Bebidas</a>
           <a href="javascript:productListDiversos();" class="list-group-item">Diversos</a>
-          <br/>
-          <br/>
-          <br/>
-
-          <a href="cadastro_pedido.html" class="list-group-item">Solicitar novo pedido</a>
         </div>
 
       </div>
@@ -192,15 +191,12 @@ function productListDiversos() {
 }
 
 function productListSuccess(products) {
-  // Iterate over the collection of data
   $.each(products, function (index, product) {
-    // Add a row to the Product table
     productAdd(product);
   });
 }
 
 function productAdd(product) {
-  // Append row to <table>
   $("#produtos").append(
     productBuilder(product));
 }
@@ -215,8 +211,8 @@ function productBuilder(product) {
     "<a href='#'>" + product.Name + "</a>" +
      "</h4><h5>R$ " + product.Price + "</h5>" +
      "<p class='card-text'>" + product.Description + "</p>" +	       
-     "<div><input type='text' class='form-control' id='" + product.Id + "' placeholder='Quantidade desejada'><br/>" +
-     "<button id='" + product.Name + "' onclick='addItem(this.id, " + product.Id + "," + product.Price + ")' type='button' class='btn btn-primary'>Adicionar</button></div><br/>"+
+     "<div><input style='width: 60px;' type='number' class='form-control' id='" + product.Id + "' placeholder='0' min='1' max='20'><br/>" + 
+     "<button id='" + product.Name + "' onclick='addItem(this.id, " + product.Id + "," + product.Price+ ")' type='button' class='btn btn-primary'>Adicionar</button></div><br/>"+
      "<div class='card-footer'><small class='text-muted'>&#9733; &#9733; &#9733; &#9733; &#9734;</small></div></div></div>";
   return ret;
 }
