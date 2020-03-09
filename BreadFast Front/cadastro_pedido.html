@@ -96,36 +96,48 @@
         <div class="row" id="cadastro">
           <form>
             <div class="form-group">
+              <label for="exampleFormControlInput1">Nome</label>
+              <input type="email" class="form-control" id="Name" placeholder="Nome do destinatário">
+            </div>
+            <div class="form-group">
               <label for="exampleFormControlInput1">Endereço de email</label>
-              <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="nome@exemplo.com">
+              <input type="email" class="form-control" id="Email" placeholder="nome@exemplo.com">
             </div>
             <div class="form-group">
-              <label for="exampleFormControlSelect1">Select de exemplo</label>
-              <select class="form-control" id="exampleFormControlSelect1">
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
+              <label for="exampleFormControlInput1">Endereço da residência</label>
+              <input type="email" class="form-control" id="Address" placeholder="Logradouro completo">
+            </div>
+            <div class="form-group">
+              <label for="exampleFormControlInput1">CEP da residência</label>
+              <input type="email" class="form-control" id="Zipcode" placeholder="CEP da residência">
+            </div>
+
+            <div class="form-group">
+              <label for="exampleFormControlSelect1">Selecione o horário desejado de entrega</label>
+              <select class="form-control" id="TimeToArrive">
+                <option>6:00 AM</option>
+                <option>6:30 AM</option>
+                <option>7:00 AM</option>
+                <option>7:30 AM</option>                
+                <option>8:00 AM</option>
+                <option>8:30 AM</option>                
+                <option>9:00 AM</option>
+                <option>9:30 AM</option>                
+                <option>10:00 AM</option>
+                <option>10:30 AM</option>                
+                <option>11:00 AM</option>
+                <option>11:30 AM</option>
               </select>
             </div>
+
             <div class="form-group">
-              <label for="exampleFormControlSelect2">Exemplo de select múltiplo</label>
-              <select multiple class="form-control" id="exampleFormControlSelect2">
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
-              </select>
+              <label for="exampleFormControlTextarea1">Observações adicionais para o pedido</label>
+              <textarea class="form-control" id="customerAditionalComments" rows="5"></textarea>
             </div>
-            <div class="form-group">
-              <label for="exampleFormControlTextarea1">Exemplo de textarea</label>
-              <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-            </div>
-			<button type="button" onclick="ReadArray();" class="btn btn-secondary">Finalizar</button>
-          </form>
-		  
+            <button type="button" onclick="ReadArray();" class="btn btn-secondary">Fechar pedido</button>
+            <br/>
+            <br/>
+          </form>		  
         </div>
       </div>
     </div>
@@ -138,101 +150,49 @@
   </footer>
 
   <script>
+  function allStorage() {
+    var values = [],
+        keys = Object.keys(window.localStorage),
+        i = keys.length;
 
-  function limpaDiv(){
-    $("#produtos").html('');
+    while ( i-- ) {
+      console.log(window.localStorage.getItem(keys[i]));
+        values.push(JSON.parse(window.localStorage.getItem(keys[i])));
+    }
+ 
+    return values;
   }
   
   function ReadArray() {
-        var data = window.localStorage.getItem('valor');
-            console.log(data);
+    const order = {
+      OrderId: Math.floor(Math.random() * Math.floor(1000000000)),
+      Address: document.getElementById("Address").value,
+      Zipcode: document.getElementById("Zipcode").value,
+      TimeToArrive: document.getElementById("TimeToArrive").value,
+      Name: document.getElementById("Name").value,
+      Email: document.getElementById("Email").value,
+      customerAditionalComments: document.getElementById("customerAditionalComments").value,
+      Products: allStorage()
     }
+    console.log("passou")
+    var dat = JSON.stringify(order);
 
-function productListPaes() {
-  limpaDiv();
+    orderPost(dat);
+  }
+
+function orderPost(order) {
   $.ajax({
-    url: 'http://localhost:57286/api/Products/GetProductsByType?type=Pães',
-    type: 'GET',
+    url: 'http://localhost:57286/api/Order/Post',
+    type: 'POST',
     dataType: 'json',
-    success: function (products) {
-      productListSuccess(products);
+    data: order,
+    success: function () {
+      alert("Enviado o pedido!")
     },
     error: function (request, message, error) {
       handleException(request, message, error);
     }
   });  
-}
-
-function productListBebidas() {
-  limpaDiv();
-  $.ajax({
-    url: 'http://localhost:57286/api/Products/GetProductsByType?type=Bebidas',
-    type: 'GET',
-    dataType: 'json',
-    success: function (products) {
-      productListSuccess(products);
-    },
-    error: function (request, message, error) {
-      handleException(request, message, error);
-    }
-  });  
-}
-
-function productListDiversos() {
-  limpaDiv();
-  $.ajax({
-    url: 'http://localhost:57286/api/Products/GetProductsByType?type=Diversos',
-    type: 'GET',
-    dataType: 'json',
-    success: function (products) {
-      productListSuccess(products);
-    },
-    error: function (request, message, error) {
-      handleException(request, message, error);
-    }
-  });  
-}
-
-  function allProductList() {
-  $.ajax({
-    url: 'http://localhost:57286/api/Products/Get',
-    type: 'GET',
-    dataType: 'json',
-    success: function (products) {
-      productListSuccess(products);
-    },
-    error: function (request, message, error) {
-      handleException(request, message, error);
-    }
-  });  
-}
-
-function productListSuccess(products) {
-  // Iterate over the collection of data
-  $.each(products, function (index, product) {
-    // Add a row to the Product table
-    productAdd(product);
-  });
-}
-
-function productAdd(product) {
-  // Append row to <table>
-  $("#produtos").append(
-    productBuilder(product));
-}
-
-function productBuilder(product) {
-  var ret =
-  "<div class='col-lg-4 col-md-6 mb-4'>" +
-   "<div class='card h-100'>" +
-    "<img class='card-img-top' src='" + product.URL + "' alt=''>" +
-    "<div class='card-body'>" +
-    "<h4 class='card-title'>" +
-    "<a href='#'>" + product.Name + "</a>" +
-     "</h4><h5>R$ " + product.Price + "</h5>" +
-     "<p class='card-text'>" + product.Description + "</p>" +
-     "<div class='card-footer'><small class='text-muted'>&#9733; &#9733; &#9733; &#9733; &#9734;</small></div></div></div>";
-  return ret;
 }
 
 function handleException(request, message,
@@ -246,10 +206,6 @@ function handleException(request, message,
   }
   alert(msg);
 }
-
-$(document).ready(function () {
-              allProductList();
-});
-  </script>
+</script>
 </body>
 </html>
